@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ffa_tool.ViewModels;
 
 namespace ffa_tool;
 
@@ -20,11 +21,5 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-    }
-
-    public void SearchTextChanged(object sender,RoutedEventArgs e)
-    {
-        var textBox = (TextBox)e.Source;
-        Trace.WriteLine(textBox.Text);
     }
 }
