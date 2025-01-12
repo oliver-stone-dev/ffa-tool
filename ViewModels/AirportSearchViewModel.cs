@@ -29,7 +29,7 @@ public class AirportSearchViewModel : ViewModelBase
     public AirportSearchViewModel(Airport airport)
     {
         _airport = airport;
-        SearchCommand = new AirportSearchCommand();
+        SearchCommand = new AirportSearchCommand(this,airport);
     }
 
     public ICommand SearchCommand { get; }

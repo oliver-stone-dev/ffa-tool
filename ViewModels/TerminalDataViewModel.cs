@@ -12,8 +12,8 @@ public class TerminalDataViewModel : ViewModelBase
 {
     private readonly Airport _airport;
 
-    private readonly ObservableCollection<DataGridViewModel> _selectedTerminalInfo;
-    public IEnumerable<DataGridViewModel> SelectedTerminalInfo => _selectedTerminalInfo;
+    private readonly ObservableCollection<DataGridViewModelItem<Terminal>> _selectedTerminalInfo;
+    public IEnumerable<DataGridViewModelItem<Terminal>> SelectedTerminalInfo => _selectedTerminalInfo;
 
     private readonly ObservableCollection<string> _terminalNames;
     public IEnumerable<string> TerminalNames => _terminalNames;
@@ -35,7 +35,7 @@ public class TerminalDataViewModel : ViewModelBase
     public TerminalDataViewModel(Airport airport)
     {
         _airport = airport;
-        _selectedTerminalInfo = new ObservableCollection<DataGridViewModel>();
+        _selectedTerminalInfo = new ObservableCollection<DataGridViewModelItem<Terminal>>();
         _terminalNames = new ObservableCollection<string>();
 
         AddTerminalNamesToCombo();
@@ -50,9 +50,6 @@ public class TerminalDataViewModel : ViewModelBase
         if (terminal == null) return;
 
         _selectedTerminalInfo.Clear();
-
-        _selectedTerminalInfo.Add(new DataGridViewModel("Id", terminal.TerminalId.ToString(), true));
-        _selectedTerminalInfo.Add(new DataGridViewModel("Name", terminal.Name!, false));
     }
 
     private void AddTerminalNamesToCombo()
