@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -12,28 +13,16 @@ namespace ffa_tool.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private readonly Airport _airport;
-    private string? _searchText;
-
-    public string? SearchText 
-    {
-        get => _searchText;
-
-        set
-        {
-            _searchText = value;
-            OnPropertyChanged(nameof(SearchText));
-        }
-    }
+    public AirportSearchViewModel AirportSearchViewModel { get; init; }
+    public AirportDataViewModel AirportDataViewModel { get; init; }
+    public TerminalDataViewModel TerminalDataViewModel { get; init; }
+    public ControlButtonsViewModel ControlButtonsViewModel { get; init; }
 
     public MainWindowViewModel(Airport airport)
     {
-        _airport = airport;
-        _searchText = airport.Name;
-        SearchCommand = new AirportSearchCommand();
+        AirportDataViewModel = new(airport);
+        AirportSearchViewModel = new(airport);
+        TerminalDataViewModel = new(airport);
+        ControlButtonsViewModel = new();
     }
-
-    public ICommand SearchCommand { get; }
-
-    public ICommand AddCommand { get; }
 }

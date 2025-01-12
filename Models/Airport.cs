@@ -15,11 +15,13 @@ public class Airport
     public string? Website { get; set; }
     public string? Country { get; set; }
 
-    private readonly List<Terminal> Terminals;
+    private readonly List<Terminal> _terminals;
+
+    public IEnumerable<Terminal> Terminals => _terminals;
 
     public Airport()
     {
-        Terminals = new();
+        _terminals = new();
     }
 
     public void AddTerminal(Terminal terminal)
@@ -37,7 +39,7 @@ public class Airport
             }
         }
 
-        Terminals.Add(terminal);
+        _terminals.Add(terminal);
     }
 
     public void RemoveTerminal(int terminalId)
@@ -46,8 +48,18 @@ public class Airport
 
         if (terminal != null)
         {
-            Terminals.Remove(terminal);
+            _terminals.Remove(terminal);
         }
+    }
+
+    public Terminal GetTerminalByName(string name)
+    {
+        return _terminals.Where(t => t.Name == name).First();
+    }
+
+    public Terminal GetTerminalById(int id)
+    {
+        return _terminals.Where(t => t.TerminalId == id).FirstOrDefault()!;
     }
 }
 
