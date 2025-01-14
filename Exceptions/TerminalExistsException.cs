@@ -1,4 +1,4 @@
-﻿using ffa_tool.Models;
+﻿using ffa_tool.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +10,22 @@ namespace ffa_tool.Exceptions;
 
 public class TerminalExistsException : Exception
 {
-    public Terminal ExistingTerminal { get; }
-    public Terminal IncomingTerminal { get; }
+    public TerminalModel ExistingTerminal { get; }
+    public TerminalModel IncomingTerminal { get; }
 
-    public TerminalExistsException(Terminal existingTerminal, Terminal incomingTerminal)
+    public TerminalExistsException(TerminalModel existingTerminal, TerminalModel incomingTerminal)
     {
         ExistingTerminal = existingTerminal;
         IncomingTerminal = incomingTerminal;
     }
 
-    public TerminalExistsException(string? message, Terminal existingTerminal, Terminal incomingTerminal) : base(message)
+    public TerminalExistsException(string? message, TerminalModel existingTerminal, TerminalModel incomingTerminal) : base(message)
     {
         ExistingTerminal = existingTerminal;
         IncomingTerminal = incomingTerminal;
     }
 
-    public TerminalExistsException(string? message, Exception? innerException, Terminal existingTerminal, Terminal incomingTerminal) : base(message, innerException)
+    public TerminalExistsException(string? message, Exception? innerException, TerminalModel existingTerminal, TerminalModel incomingTerminal) : base(message, innerException)
     {
         ExistingTerminal = existingTerminal;
         IncomingTerminal = incomingTerminal;

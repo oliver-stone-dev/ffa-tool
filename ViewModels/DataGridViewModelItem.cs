@@ -1,4 +1,4 @@
-﻿using ffa_tool.Models;
+﻿using ffa_tool.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

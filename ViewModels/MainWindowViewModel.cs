@@ -7,22 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ffa_tool.Commands;
-using ffa_tool.Models;
+using ffa_tool.DomainModels;
 
 namespace ffa_tool.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public AirportSearchViewModel AirportSearchViewModel { get; init; }
     public AirportDataViewModel AirportDataViewModel { get; init; }
-    public TerminalDataViewModel TerminalDataViewModel { get; init; }
     public ControlButtonsViewModel ControlButtonsViewModel { get; init; }
 
-    public MainWindowViewModel(Airport airport)
+    public MainWindowViewModel(AirportManagerModel airportManager, AirportModel airportModel)
     {
-        AirportDataViewModel = new(airport);
-        AirportSearchViewModel = new(airport);
-        TerminalDataViewModel = new(airport);
-        ControlButtonsViewModel = new();
+        AirportDataViewModel = new(airportManager, airportModel);
+        ControlButtonsViewModel = new(airportManager);
     }
 }

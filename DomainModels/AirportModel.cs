@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ffa_tool.Exceptions;
 
-namespace ffa_tool.Models;
+namespace ffa_tool.DomainModels;
 
-public class Airport
+public class AirportModel
 {
     public int AirportId { get; set; }
     public string? Name { get; set; }
@@ -15,16 +15,16 @@ public class Airport
     public string? Website { get; set; }
     public string? Country { get; set; }
 
-    private readonly List<Terminal> _terminals;
+    private readonly List<TerminalModel> _terminals;
 
-    public IEnumerable<Terminal> Terminals => _terminals;
+    public IEnumerable<TerminalModel> Terminals => _terminals;
 
-    public Airport()
+    public AirportModel()
     {
         _terminals = new();
     }
 
-    public void AddTerminal(Terminal terminal)
+    public void AddTerminal(TerminalModel terminal)
     {
         if (terminal == null)
         {
@@ -46,20 +46,31 @@ public class Airport
     {
         var terminal = Terminals.First(t => t.TerminalId == terminalId);
 
+
         if (terminal != null)
         {
             _terminals.Remove(terminal);
         }
     }
 
-    public Terminal GetTerminalByName(string name)
+    public TerminalModel GetTerminalByName(string name)
     {
         return _terminals.Where(t => t.Name == name).First();
     }
 
-    public Terminal GetTerminalById(int id)
+    public TerminalModel GetTerminalById(int id)
     {
         return _terminals.Where(t => t.TerminalId == id).FirstOrDefault()!;
+    }
+
+    public void Clear()
+    {
+        AirportId = 0;
+        Name = string.Empty;
+        Code = string.Empty;
+        Website = string.Empty;
+        Country = string.Empty;
+        _terminals.Clear();
     }
 }
 
