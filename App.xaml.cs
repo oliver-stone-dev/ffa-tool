@@ -13,16 +13,14 @@ namespace ffa_tool;
 public partial class App : Application
 {
     private IAirportService _airportService;
-    private ITerminalService _terminalService;
     private AirportModel _airportModel;
     private AirportManagerModel _airportManager;
 
     public App()
     {
         _airportService = new AirportService();
-        _terminalService = new TerminalService();
         _airportModel = new AirportModel();
-        _airportManager = new(_airportModel, _airportService, _terminalService);
+        _airportManager = new(_airportModel, _airportService);
     }
 
     protected override void OnStartup(StartupEventArgs e)

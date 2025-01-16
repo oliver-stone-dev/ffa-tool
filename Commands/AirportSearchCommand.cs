@@ -29,8 +29,11 @@ public class AirportSearchCommand : CommandBase
         //var airport = _airportManager.GetAirportById(Convert.ToInt32(_airportDataViewModel.SearchText));
         //_airportDataViewModel.SetAirportInfo(airport);
 
-        var id = _airportManager.GetCurrentAirportId();
-        _airportManager.LoadModelFromAirportId(id);
+        //var id = _airportManager.GetCurrentAirportId();
+        //_airportManager.SearchAirports(_airportDataViewModel.SearchText!);
+        //_airportManager.LoadModelFromAirportId(id);
+        //_airportDataViewModel.RefreshAirportData();
+        _airportManager.LoadModelFromAirportCode(_airportDataViewModel.SearchText!);
         _airportDataViewModel.RefreshAirportData();
     }
 }

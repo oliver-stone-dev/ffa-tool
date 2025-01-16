@@ -44,8 +44,7 @@ public class AirportModel
 
     public void RemoveTerminal(int terminalId)
     {
-        var terminal = Terminals.First(t => t.TerminalId == terminalId);
-
+        var terminal = Terminals.FirstOrDefault(t => t.TerminalId == terminalId);
 
         if (terminal != null)
         {
@@ -55,21 +54,37 @@ public class AirportModel
 
     public TerminalModel GetTerminalByName(string name)
     {
-        return _terminals.Where(t => t.Name == name).First();
+        var terminals = _terminals.Where(t => t.Name == name).FirstOrDefault();
+        if (terminals != null)
+        {
+            return terminals;
+        }
+
+        return null!;
     }
 
     public TerminalModel GetTerminalById(int id)
     {
-        return _terminals.Where(t => t.TerminalId == id).FirstOrDefault()!;
+        var terminals = _terminals.Where(t => t.TerminalId == id).FirstOrDefault();
+        if (terminals != null)
+        {
+            return terminals;
+        }
+
+        return null!;
     }
 
-    public void Clear()
+    public void ResetAirport()
     {
         AirportId = 0;
         Name = string.Empty;
         Code = string.Empty;
         Website = string.Empty;
         Country = string.Empty;
+    }
+
+    public void ClearTerminals()
+    {
         _terminals.Clear();
     }
 }

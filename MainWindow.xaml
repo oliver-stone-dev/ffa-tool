@@ -78,7 +78,7 @@
                             </DataGrid>
                         </Grid>
                         <Grid Grid.Row="1"  Grid.Column="2" DataContext="{Binding AirportDataViewModel}">
-                            <ComboBox  Margin="10" SelectedItem="{Binding SelectedTerminalName}" ItemsSource="{Binding TerminalNames,UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0">
+                            <ComboBox  Margin="10" SelectedItem="{Binding SelectedTerminalName}" SelectedValuePath="Value" ItemsSource="{Binding TerminalNames,UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Value" SelectedIndex="0">
                             </ComboBox>
                         </Grid>
                         <!--Data Section Button Grid -->
@@ -99,7 +99,7 @@
                         </Grid>
                     </Grid>
                     <!-- Action buttons section grid -->
-                    <Grid Grid.Row="2" Grid.Column="0" ShowGridLines="False" DataContext="{Binding ControlButtonsViewModel}">
+                    <Grid Grid.Row="2" Grid.Column="0" ShowGridLines="False" DataContext="{Binding AirportDataViewModel}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>

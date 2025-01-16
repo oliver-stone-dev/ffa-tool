@@ -37,6 +37,8 @@ public class DataGridViewModelItem<T> : ViewModelBase
         if (_model == null) return;
         if (PropertyName == null) return;
 
+        var type = typeof(T);
+        type.GetProperty(PropertyName)!.SetValue(_model, str);
     }
 
     public string GetString()

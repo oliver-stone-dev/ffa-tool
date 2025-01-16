@@ -1,4 +1,5 @@
 ﻿using ffa_tool.DomainModels;
+using ffa_tool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,9 +12,12 @@ namespace ffa_tool.Commands;
 public class SaveChangesCommand : CommandBase
 {
     private readonly AirportManagerModel _airportManager;
+    private readonly AirportDataViewModel _airportDataViewModel;
 
-    public SaveChangesCommand(AirportManagerModel airportManager)
+    public SaveChangesCommand(AirportDataViewModel airportDataViewModel,
+                                AirportManagerModel airportManager)
     {
+        _airportDataViewModel = airportDataViewModel;
         _airportManager = airportManager;
     }
 
@@ -24,6 +28,7 @@ public class SaveChangesCommand : CommandBase
 
     public override void Execute(object? parameter)
     {
-        Trace.WriteLine("Upload Data!");
+        _airportManager.SaveCurrentModel();
+        _airportDataViewModel.RefreshAirportData();
     }
 }

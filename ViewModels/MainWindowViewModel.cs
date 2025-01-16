@@ -14,11 +14,9 @@ namespace ffa_tool.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public AirportDataViewModel AirportDataViewModel { get; init; }
-    public ControlButtonsViewModel ControlButtonsViewModel { get; init; }
 
     public MainWindowViewModel(AirportManagerModel airportManager, AirportModel airportModel)
     {
         AirportDataViewModel = new(airportManager, airportModel);
-        ControlButtonsViewModel = new(airportManager);
     }
 }
