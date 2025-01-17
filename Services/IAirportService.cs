@@ -14,6 +14,7 @@ public interface IAirportService
     AirportModel GetAirportByCode(string code);
     void UpdateAirport(AirportModel airportModel);
 
-    IEnumerable<TerminalModel> GetTerminalsByAirportId(int id);
+    void DeleteAirport(int id);
 
+    IEnumerable<TerminalModel> GetTerminalsByAirportId(int id);
 }

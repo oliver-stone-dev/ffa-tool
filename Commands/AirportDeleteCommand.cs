@@ -12,10 +12,12 @@ namespace ffa_tool.Commands;
 
 public class AirportDeleteCommand : CommandBase
 {
+    private readonly AirportDataViewModel _airportDataViewModel;
     private readonly AirportManagerModel _airportManager;
 
-    public AirportDeleteCommand(AirportManagerModel airportManager)
+    public AirportDeleteCommand(AirportDataViewModel airportDataViewModel, AirportManagerModel airportManager)
     {
+        _airportDataViewModel = airportDataViewModel;
         _airportManager = airportManager;
     }
 
@@ -26,6 +28,8 @@ public class AirportDeleteCommand : CommandBase
 
     public override void Execute(object? parameter)
     {
-        Trace.WriteLine("Airport deleted!");
+        _airportManager.DeleteCurrentModel();
+        _airportManager.ClearCurrentModel();
+        _airportDataViewModel.RefreshAirportData();
     }
 }

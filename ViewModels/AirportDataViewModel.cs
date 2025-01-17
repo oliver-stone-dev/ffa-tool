@@ -72,7 +72,7 @@ public class AirportDataViewModel : ViewModelBase
         SearchCommand = new AirportSearchCommand(this, airportManager);
         AddTerminalCommand = new TerminalAddCommand(this);
         DeleteTerminalCommand = new TerminalDeleteCommand(airportManager);
-        DeleteAirportCommand = new AirportDeleteCommand(airportManager);
+        DeleteAirportCommand = new AirportDeleteCommand(this,airportManager);
         SaveChangesCommand = new SaveChangesCommand(this, airportManager);
         NewAirportCommand = new AirportAddCommand(airportManager);
     }

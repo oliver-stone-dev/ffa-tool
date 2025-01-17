@@ -1,6 +1,7 @@
 ﻿using ffa_tool.DatabaseModels;
 using ffa_tool.Databases;
 using ffa_tool.DomainModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +91,18 @@ public class AirportService : IAirportService
 
                 terminalDatabase.SaveChanges();
             }
+        }
+    }
+    public void DeleteAirport(int id)
+    {
+        using (var airportContext = new AirportDatabaseContext())
+        {
+            airportContext.Airports.Where(a => a.Id == id).ExecuteDelete();
+        }
+
+        using (var terminalContextx = new TerminalDatabaseContext())
+        {
+            terminalContextx.Terminals.Where(t => t.AirportId == id).ExecuteDelete();
         }
     }
 

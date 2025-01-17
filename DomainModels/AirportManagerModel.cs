@@ -88,6 +88,11 @@ public class AirportManagerModel
         //_airportService.UpdateTerminals(_airportModel.Terminals);
     }
 
+    public void DeleteCurrentModel()
+    {
+        _airportService.DeleteAirport(_airportModel.AirportId);
+    }
+
     public void ClearCurrentModel()
     {
         _airportModel.ResetAirport();
