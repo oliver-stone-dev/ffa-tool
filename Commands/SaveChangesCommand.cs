@@ -29,6 +29,7 @@ public class SaveChangesCommand : CommandBase
     public override void Execute(object? parameter)
     {
         _airportManager.SaveCurrentModel();
+        _airportManager.LoadModelFromAirportId(_airportManager.GetCurrentAirportId());
         _airportDataViewModel.RefreshAirportData();
     }
 }

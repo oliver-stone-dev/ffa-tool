@@ -1,4 +1,5 @@
 ﻿using ffa_tool.DomainModels;
+using ffa_tool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,11 +11,13 @@ namespace ffa_tool.Commands;
 
 public class TerminalDeleteCommand : CommandBase
 {
-    private readonly AirportManagerModel _airportManager;
+    private readonly AirportDataViewModel _airportDataViewModel;
+    private readonly AirportManagerModel _airportManagerModel;
 
-    public TerminalDeleteCommand(AirportManagerModel airportManager)
+    public TerminalDeleteCommand(AirportDataViewModel airportDataViewModel, AirportManagerModel airportManagerModel)
     {
-        _airportManager = airportManager;
+        _airportDataViewModel = airportDataViewModel;
+        _airportManagerModel = airportManagerModel;
     }
 
     public override bool CanExecute(object? parameter)
@@ -23,6 +26,14 @@ public class TerminalDeleteCommand : CommandBase
     }
     public override void Execute(object? parameter)
     {
-        Trace.WriteLine("Terminal delete!");
+        var name = _airportDataViewModel.GetSelectedTerminalName();
+        if (string.IsNullOrEmpty(name)) return;
+
+        var id = _airportManagerModel.GetTerminalIdFromName(name);
+        if (id != 0)
+        {       
+            _airportManagerModel.DeleteTerminalFromModel(id);
+            _airportDataViewModel.RefreshAirportData();
+        }
     }
 }

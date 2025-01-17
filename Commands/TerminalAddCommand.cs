@@ -12,10 +12,12 @@ namespace ffa_tool.Commands;
 public class TerminalAddCommand : CommandBase
 {
     private readonly AirportDataViewModel _airportDataViewModel;
+    private readonly AirportManagerModel _airportManagerModel;
 
-    public TerminalAddCommand(AirportDataViewModel airportDataViewModel)
+    public TerminalAddCommand(AirportDataViewModel airportDataViewModel, AirportManagerModel airportManagerModel)
     {
         _airportDataViewModel = airportDataViewModel;
+        _airportManagerModel = airportManagerModel;
     }
 
     public override bool CanExecute(object? parameter)
@@ -25,11 +27,12 @@ public class TerminalAddCommand : CommandBase
 
     public override void Execute(object? parameter)
     {
-        // Attempt to a add a new terminal
-        //var airportId = _airportDataViewModel.GetCurrentAirportId();
-        //if (airportId == 0) return;
+        _airportManagerModel.AddTerminalToModel();
+        _airportDataViewModel.RefreshAirportData();
 
-        //_terminalManager.AddTerminal(new TerminalModel(), airportId);
-        //_terminalDataViewModel.SetTerminalsForAirport(airportId);
+        var lastTerminalName = _airportManagerModel.GetLastTerminalName();
+        if (string.IsNullOrEmpty(lastTerminalName)) return;
+        _airportDataViewModel.SetSelectedTerminalName(lastTerminalName);
+
     }
 }

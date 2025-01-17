@@ -1,4 +1,5 @@
-﻿using ffa_tool.Services;
+﻿using ffa_tool.DatabaseModels;
+using ffa_tool.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,26 +30,19 @@ public class AirportManagerModel
         return airports;
     }
     
-    public void LoadModelFromAirportId(int id)
+    public bool LoadModelFromAirportId(int id)
     {
-        _airportModel.ResetAirport();
-        _airportModel.ClearTerminals();
+        if (id == 0) return false;
 
-        _airportModel.AirportId = 1;
-        _airportModel.Name = "London Heathrow";
-        _airportModel.Code = "LHR";
-        
-        var terminal2 = new TerminalModel() { TerminalId = 1, Name = "Terminal 2" };
-        var terminal3 = new TerminalModel() { TerminalId = 2, Name = "Terminal 3" };
-        var terminal4 = new TerminalModel() { TerminalId = 3, Name = "Terminal 4" };
-        var terminal5 = new TerminalModel() { TerminalId = 4, Name = "Terminal 5" };
+        var airport = _airportService.GetAirportById(id);
+        if (airport == null) return false;
+        UpdateAirportModelData(airport);
 
-        _airportModel.AddTerminal(terminal2);
-        _airportModel.AddTerminal(terminal3);
-        _airportModel.AddTerminal(terminal4);
-        _airportModel.AddTerminal(terminal5);
+        var terminals = _airportService.GetTerminalsByAirportId(airport.AirportId);
+        if (terminals == null || terminals.Count() == 0) return false;
+        UpdateAirportModelTerminalData(terminals);
 
-        //Load data from database to current model
+        return true;
     }
 
     public bool LoadModelFromAirportCode(string code)
@@ -57,27 +51,11 @@ public class AirportManagerModel
 
         var airport = _airportService.GetAirportByCode(code);
         if (airport == null) return false;
-
-        _airportModel.ResetAirport();
-        _airportModel.ClearTerminals();
-
-        _airportModel.AirportId = airport.AirportId;
-        _airportModel.Name = airport.Name;
-        _airportModel.Code = airport.Code;
-        _airportModel.Website = airport.Website;
-        _airportModel.Country = airport.Country;
+        UpdateAirportModelData(airport);
 
         var terminals = _airportService.GetTerminalsByAirportId(airport.AirportId);
         if (terminals == null || terminals.Count() == 0) return false;
-
-        foreach (var terminal in terminals)
-        {
-            _airportModel.AddTerminal(new TerminalModel
-            {
-                TerminalId = terminal.TerminalId,
-                Name = terminal.Name
-            });
-        }
+        UpdateAirportModelTerminalData(terminals);
 
         return true;
     }
@@ -102,5 +80,60 @@ public class AirportManagerModel
     public int GetCurrentAirportId()
     {
         return _airportModel.AirportId;
+    }
+
+    public string GetLastTerminalName()
+    {
+        var terminal = _airportModel.Terminals.Last();
+
+        if (terminal == null) return string.Empty;
+
+        return terminal.Name!;
+    }
+
+    public int GetTerminalIdFromName(string name)
+    {
+        var terminal = _airportModel.Terminals.Where(t => t.Name == name).FirstOrDefault();
+
+        if (terminal == null) return 0;
+
+        return terminal.TerminalId;
+    }
+
+    public void AddTerminalToModel()
+    {
+        var len = _airportModel.Terminals.Count();
+        var name = $"Terminal {len + 1}";
+        _airportModel.AddTerminal(new TerminalModel { TerminalId = 0, Name = name });
+    }
+
+    public void DeleteTerminalFromModel(int id)
+    {
+        _airportModel.RemoveTerminal(id);
+    }
+
+    private void UpdateAirportModelData(AirportModel airportModel)
+    {
+        _airportModel.ResetAirport();
+
+        _airportModel.AirportId = airportModel.AirportId;
+        _airportModel.Name = airportModel.Name;
+        _airportModel.Code = airportModel.Code;
+        _airportModel.Website = airportModel.Website;
+        _airportModel.Country = airportModel.Country;
+    }
+
+    private void UpdateAirportModelTerminalData(IEnumerable<TerminalModel> terminals)
+    {
+        _airportModel.ClearTerminals();
+
+        foreach (var terminal in terminals)
+        {
+            _airportModel.AddTerminal(new TerminalModel
+            {
+                TerminalId = terminal.TerminalId,
+                Name = terminal.Name
+            });
+        }
     }
 }

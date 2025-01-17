@@ -70,8 +70,8 @@ public class AirportDataViewModel : ViewModelBase
         _terminalNames = new ObservableCollection<DataGridViewModelItem<TerminalModel>>();
 
         SearchCommand = new AirportSearchCommand(this, airportManager);
-        AddTerminalCommand = new TerminalAddCommand(this);
-        DeleteTerminalCommand = new TerminalDeleteCommand(airportManager);
+        AddTerminalCommand = new TerminalAddCommand(this, airportManager);
+        DeleteTerminalCommand = new TerminalDeleteCommand(this,airportManager);
         DeleteAirportCommand = new AirportDeleteCommand(this,airportManager);
         SaveChangesCommand = new SaveChangesCommand(this, airportManager);
         NewAirportCommand = new AirportAddCommand(airportManager);
@@ -97,6 +97,35 @@ public class AirportDataViewModel : ViewModelBase
         }
 
         _selectedTerminalName = _terminalNames.FirstOrDefault()!;
+        if (_selectedTerminalName != null)
+        {
+            OnPropertyChanged(nameof(SelectedTerminalName));
+        }
+    }
+
+    public void SetSelectedTerminalName(string name)
+    {
+        if (_terminalNames.Count() == 0 || _terminalNames == null) return;
+
+        var terminal = _terminalNames.Where(t => t.PropertyName == "Name" && t.Value == name)
+                                     .FirstOrDefault();
+
+        if (terminal == null) return;
+
+        _selectedTerminalName = terminal;
+        OnPropertyChanged(nameof(SelectedTerminalName));
+    }
+
+    public string GetSelectedTerminalName()
+    {
+        if (_selectedTerminalName == null) return string.Empty;
+
+        if (_selectedTerminalName.PropertyName == "Name")
+        {
+            return _selectedTerminalName.Value;
+        }
+
+        return string.Empty;
     }
 
     public ICommand AddTerminalCommand { get; }

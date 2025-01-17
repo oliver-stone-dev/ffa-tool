@@ -76,21 +76,23 @@ public class AirportService : IAirportService
 
         using (var terminalDatabase = new TerminalDatabaseContext())
         {
-            foreach (var terminal in airportModel.Terminals)
-            {
-                var terminalData = terminalDatabase.Terminals.Where(t => t.Id == terminal.TerminalId).FirstOrDefault();
+            var terminals = terminalDatabase.Terminals.Where(t => t.AirportId == airportModel.AirportId);
 
-                if (terminalData == null)
+            foreach (var terminal in terminals)
+            {
+                var modelTerminal = airportModel.Terminals.Where(t => t.TerminalId == terminal.Id).FirstOrDefault();
+
+                if (modelTerminal != null)
                 {
-                    terminalDatabase.Terminals.Add(new Terminal { Name = terminal.Name, AirportId = airportModel.AirportId });
+                    terminal.Name = modelTerminal.Name;
                 }
                 else
                 {
-                    terminalData.Name = terminal.Name;
+                    terminalDatabase.Terminals.Remove(terminal);
                 }
-
-                terminalDatabase.SaveChanges();
             }
+
+            terminalDatabase.SaveChanges();
         }
     }
     public void DeleteAirport(int id)

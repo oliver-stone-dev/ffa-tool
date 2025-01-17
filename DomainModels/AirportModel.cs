@@ -31,11 +31,15 @@ public class AirportModel
             return;
         }
 
-        foreach (var t in Terminals)
+
+        if (terminal.TerminalId != 0)
         {
-            if (terminal.TerminalId == t.TerminalId)
+            foreach (var t in Terminals)
             {
-                throw new TerminalExistsException(t,terminal);
+                if (terminal.TerminalId == t.TerminalId)
+                {
+                    throw new TerminalExistsException(t, terminal);
+                }
             }
         }
 
