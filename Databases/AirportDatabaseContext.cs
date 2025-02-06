@@ -12,8 +12,10 @@ namespace ffa_tool.Databases;
 public class AirportDatabaseContext : DbContext
 {
     public DbSet<Airport> Airports { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    { 
-        optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=FFA_Db;Trusted_Connection=True;TrustServerCertificate=True;");
+    {
+        var connectionString = DatabaseSettingsReader.ReadSetting("ConnectionString");
+        optionsBuilder.UseSqlServer(connectionString);
     }
 }

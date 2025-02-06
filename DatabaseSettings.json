@@ -1,0 +1,3 @@
+﻿{
+  "ConnectionString": "Server=.\\SQLEXPRESS;Database=FFA_Db;Trusted_Connection=True;TrustServerCertificate=True;"
+}
